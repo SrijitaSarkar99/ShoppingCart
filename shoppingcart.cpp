@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 #include <cstring>
 using namespace std;
@@ -18,7 +19,7 @@ public:
     // void add_item();
     void display_cart(int i)
     {
-        cout << i << "\t" << item_id << "\t" << item_name << "\t" << item_category << "\t" << item_quantity << "\t" << item_price << "\n";
+        cout << i << setw(10) << item_id << setw(10) << item_name << setw(10) << item_category << setw(10) << item_quantity << setw(10) << item_price << "\n";
     }
     void checkout();
     // void remove_item();
@@ -34,15 +35,36 @@ public:
 Item I[20];
 void Item::checkout()
 {
-    double total_price = 0;
-    cout << "*****FINAL BILL*****\n";
-    cout << "ITEM ID \t ITEM NAME \t ITEM CATEGORY \t ITEM QUANTITY \t ITEM PRICE\n";
-    for (int i = 0; i < ind; i++)
+    if (ind <= 0)
+        cout << "\nMessage: Cart is Empty! Unable to Checkout\n\n";
+    else
     {
-        I[i].display_cart(i + 1);
-        total_price += I[i].item_price;
+        double total_price = 0;
+        cout << "\n\t\t\t\t"
+             << "-------------------------"
+             << "\n\t\t\t\t"
+             << "||*****FINAL BILL *****||"
+             << "\n\t\t\t\t"
+             << "-------------------------"
+             << endl;
+        for (int f = 0; f < 80; f++)
+            cout << "-";
+        cout << endl;
+        cout << "| ITEM ID | ITEM NAME \t|     ITEM CATEGORY \t| ITEM QUANTITY |  ITEM PRICE  |\n";
+        for (int f = 0; f < 80; f++)
+            cout << "-";
+
+        for (int i = 0; i < ind; i++)
+        {
+            I[i].display_cart(i + 1);
+            total_price += I[i].item_price;
+        }
+        cout << "\nTOTAL AMOUNT: Rs " << total_price;
+        cout << "\nThank you for shopping :)" << endl;
     }
-    cout << "\nTOTAL AMOUNT: Rs " << total_price;
+
+    // Exit program
+    exit(0);
 }
 
 class Grocery : protected Item
@@ -133,8 +155,21 @@ void mainMenu()
 
     while (1)
     {
-        cout << "*****MAIN MENU*****\n\n";
-        cout << "1. Add Item\n2. Display Cart\n3. Checkout\n";
+        cout << "\n\t\t\t\t"
+             << "-------------------------"
+             << "\n\t\t\t\t"
+             << "|\tMAIN MENU\t|"
+             << "\n\t\t\t\t"
+             << "-------------------------";
+        cout << "\n\t\t\t\t"
+             << "| 1. Add Item\t\t|"
+             << "\n\t\t\t\t"
+             << "| 2. Display Cart\t|"
+             << "\n\t\t\t\t"
+             << "| 3. Checkout\t\t|";
+        cout << "\n\t\t\t\t"
+             << "-------------------------"
+             << endl;
         cout << "Enter your choice: ";
         cin >> ch1;
         switch (ch1)
@@ -161,8 +196,19 @@ void mainMenu()
 void menu()
 {
     int ch;
-    cout << "Category of items available:\n";
-    cout << " 1.Grocery \n 2.Stationary\n";
+    cout << "\n\t\t\t\t"
+         << "-------------------------"
+         << "\n\t\t\t\t"
+         << "|\tCATEGORIES\t|"
+         << "\n\t\t\t\t"
+         << "-------------------------";
+    cout << "\n\t\t\t\t"
+         << "| 1. Grocery\t\t|"
+         << "\n\t\t\t\t"
+         << "| 2. Stationary\t\t|";
+    cout << "\n\t\t\t\t"
+         << "-------------------------"
+         << endl;
     cout << "Enter your choice:";
     cin >> ch;
     char choice;
@@ -184,9 +230,9 @@ void menu()
         {
             Stationary S;
             S.add_item();
-            cout << "\nWant to add more Stationary(Y/N)?";
+            cout << "\nWant to add more Stationary(Y/N)?(Y)";
             cin >> choice;
-            if (choice == 'N')
+            if (choice == 'N' || choice == 'n')
                 break;
         }
         break;
